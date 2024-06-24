@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Style for CardView -->
+    <style name="CardViewStyle">
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">10dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="cardBackgroundColor">@color/button_grey</item> <!-- Background color for CardView -->
+    </style>
+
+    <!-- Style for action TextView inside CardView -->
+    <style name="CardViewActionTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item> <!-- Text color for action -->
+    </style>
+
+    <!-- Style for timeShow TextView inside CardView -->
+    <style name="CardViewTimeShowTextStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@color/white</item> <!-- Text color for action -->
+    </style>
+    <!-- Style for timestamp TextView inside CardView -->
+    <style name="CardViewTimestampTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_light_grey</item> <!-- Text color for timestamp -->
+    </style>
+
+</resources>

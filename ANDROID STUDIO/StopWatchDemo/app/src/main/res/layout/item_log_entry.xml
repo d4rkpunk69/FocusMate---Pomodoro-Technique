@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="382dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvAction"
+            style="@style/CardViewActionTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/action" />
+
+        <TextView
+            android:id="@+id/tvTimerDisplay"
+            style="@style/CardViewTimeShowTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/_00_00_00" />
+
+        <TextView
+            android:id="@+id/tvTimestamp"
+            style="@style/CardViewTimestampTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/timestamp" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,13 @@
+<resources>
+    <!-- Other styles -->
+
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">#FF6200EE</item> <!-- Background color -->
+        <item name="android:textColor">#FFFFFF</item> <!-- Text color -->
+        <item name="android:padding">16dp</item> <!-- Padding -->
+        <item name="android:textSize">18sp</item> <!-- Text size -->
+<!--        <item name="android:fontFamily">@font/your_custom_font</item> &lt;!&ndash; Custom font (optional) &ndash;&gt;-->
+<!--        <item name="android:layout_margin">8dp</item> &lt;!&ndash; Margin &ndash;&gt;-->
+<!--        <item name="android:cornerRadius">12dp</item> &lt;!&ndash; Corner radius (for rounded corners) &ndash;&gt;-->
+    </style>
+</resources>

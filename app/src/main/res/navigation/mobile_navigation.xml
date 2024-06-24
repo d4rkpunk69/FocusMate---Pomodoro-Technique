@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/timeHomeFragment">
+
+    <fragment
+        android:id="@+id/timeHomeFragment"
+        android:name="com.example.focusmate.ui.time_home.TimeHomeFragment"
+        android:label="@string/time_home"
+        tools:layout="@layout/fragment_time_home">
+        <action
+            android:id="@+id/action_nav_home_to_sessionHistoryFragment"
+            app:destination="@id/sessionHistoryFragment" />
+        <action
+            android:id="@+id/action_home_to_settings"
+            app:destination="@id/settings_fragment" />
+        <deepLink
+            android:id="@+id/deepLinkTimeHome"
+            app:uri="focusmate://time_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.example.focusmate.ui.settings.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings" >
+        <deepLink
+            android:id="@+id/deepLinkSettings"
+            app:uri="focusmate://settings" />
+        <action
+            android:id="@+id/nav_setting_to_home"
+            app:destination="@id/timeHomeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.focusmate.ui.aboutus.AboutUsFragment"
+        android:label="@string/about_us"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/sessionHistoryFragment"
+        android:name="com.example.focusmate.session.SessionHistoryFragment"
+        android:label="SessionHistoryFragment" />
+</navigation>

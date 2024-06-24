@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.navdemo.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action1"
+            app:destination="@id/secondFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/blink"
+            app:popExitAnim="@anim/rotate"
+            app:popUpTo="@id/secondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondFragment"
+        android:name="com.example.navdemo.SecondFragment"
+        android:label="fragment_second"
+        tools:layout="@layout/fragment_second" >
+        <action
+            android:id="@+id/action2"
+            app:destination="@id/termsConditionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/termsConditionFragment"
+        android:name="com.example.navdemo.TermsConditionFragment"
+        android:label="fragment_terms_condition"
+        tools:layout="@layout/fragment_terms_condition" >
+        <action
+            android:id="@+id/actionDontAccept"
+            app:destination="@id/secondFragment" />
+        <action
+            android:id="@+id/actionLast"
+            app:destination="@id/lastScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/lastScreen"
+        android:name="com.example.navdemo.LastScreen"
+        android:label="fragment_last_screen"
+        tools:layout="@layout/fragment_last_screen" />
+</navigation>

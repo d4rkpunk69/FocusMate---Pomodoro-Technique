@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Student Registration</string>
+    <string name="student_registration_form">STUDENT REGISTRATION FORM</string>
+    <string name="enter_name_here">Enter Name Here</string>
+    <string name="enter_e_mail_here">Enter E-Mail Here</string>
+    <string name="cancel">Cancel</string>
+    <string name="submit">Submit</string>
+    <string name="clear">Clear</string>
+</resources>

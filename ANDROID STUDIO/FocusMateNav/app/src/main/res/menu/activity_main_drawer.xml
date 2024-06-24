@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_mainScreen"
+            android:icon="@drawable/icon_clock"
+            android:title="@string/main_screen" />
+        <item
+            android:id="@+id/nav_music"
+            android:icon="@drawable/icon_music"
+            android:title="@string/play_background_music" />
+        <item
+            android:id="@+id/nav_setTime"
+            android:icon="@drawable/icon_set_time"
+            android:title="@string/customise_time" />
+    </group>
+</menu>

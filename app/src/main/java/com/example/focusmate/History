@@ -1,0 +1,463 @@
+package com.example.focusmate.ui.settings
+
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
+import com.example.focusmate.R
+import com.example.focusmate.databinding.FragmentSettingsBinding
+import com.example.focusmate.ui.shared.SharedViewModel
+import kotlin.properties.Delegates
+
+class SettingsFragment : Fragment() {
+
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var setHoursFocus: EditText
+    private lateinit var setMinutesFocus: EditText
+    private lateinit var setHoursBreak: EditText
+    private lateinit var setMinutesBreak: EditText
+    private lateinit var saveButton: ImageButton
+    private var isValid by Delegates.notNull<Boolean>()
+
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        val settingsViewModel =
+            ViewModelProvider(this)[SettingsViewModel::class.java]
+
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        setHoursFocus = binding.setHoursFocus
+        setMinutesFocus = binding.setMinutesFocus
+        setHoursBreak = binding.setHoursBreak
+        setMinutesBreak = binding.setMinutesBreak
+        saveButton = binding.btnSave
+
+        // Add TextWatchers to validate inputs
+        setHoursFocus.addTextChangedListener(textWatcher)
+        setMinutesFocus.addTextChangedListener(textWatcher)
+        setHoursBreak.addTextChangedListener(textWatcher)
+        setMinutesBreak.addTextChangedListener(textWatcher)
+
+        saveButton.setOnClickListener {
+            if(validateInputs()) {
+                saveSettings()
+                Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Please fill in the time correctly", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun saveSettings() {
+        val focusHours = setHoursFocus.text.toString().toIntOrNull() ?: 0
+        val focusMinutes = setMinutesFocus.text.toString().toIntOrNull() ?: 0
+        val breakHours = setHoursBreak.text.toString().toIntOrNull() ?: 0
+        val breakMinutes = setMinutesBreak.text.toString().toIntOrNull() ?: 0
+
+        // Save the settings using your ViewModel or Shared Preferences
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            validateInputs()
+        }
+
+        override fun afterTextChanged(s: Editable?) {}
+    }
+
+    private fun validateInputs(): Boolean {
+        val focusHours = setHoursFocus.text.toString().toIntOrNull() ?: 0
+        val focusMinutes = setMinutesFocus.text.toString().toIntOrNull() ?: 0
+        val breakHours = setHoursBreak.text.toString().toIntOrNull() ?: 0
+        val breakMinutes = setMinutesBreak.text.toString().toIntOrNull() ?: 0
+
+        val isFocusTimeValid = (focusHours * 60 + focusMinutes) >= 15
+        val isBreakTimeValid = (breakHours * 60 + breakMinutes) >= 5
+        val areAllFieldsFilled = setHoursFocus.text.isNotEmpty() &&
+                setMinutesFocus.text.isNotEmpty() &&
+                setHoursBreak.text.isNotEmpty() &&
+                setMinutesBreak.text.isNotEmpty()
+        isValid = isFocusTimeValid && isBreakTimeValid && areAllFieldsFilled
+        saveButton.isEnabled = isValid
+        return isValid
+    }
+}
+
+// TIME HOME FRAGMENT
+
+package com.example.focusmate.ui.time_home
+
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.media.AudioManager
+import android.net.wifi.WifiManager
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.focusmate.R
+import com.example.focusmate.databinding.FragmentTimeHomeBinding
+
+class TimeHomeFragment : Fragment() {
+    private lateinit var clockText: TextView
+    private lateinit var announceText: TextView
+    private lateinit var wifiBtn: ImageButton
+    private lateinit var sndBtn: ImageButton
+    private var isPlaying = false
+
+    private var _binding: FragmentTimeHomeBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
+    private val wifiReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            updateWifiStatus()
+        }
+    }
+
+    private val ringerReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            updateRingerStatus()
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val timeHomeViewModel =
+            ViewModelProvider(this).get(TimeHomeViewModel::class.java)
+        _binding = FragmentTimeHomeBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        sndBtn = binding.imgbtnSnd
+        wifiBtn = binding.imgbtnWifi
+        clockText = binding.tvTimeHome
+        clockText.text = getText(R.string.time_default)
+        announceText = binding.tvSessionAnnouncer
+        val btnPlayPause: ImageButton = binding.btnPlayPause
+        btnPlayPause.setImageResource(R.drawable.icon_play)
+
+        if (clockText.text == getText(R.string.time_default)) {
+            announceText.text = "Please set time first"
+            btnPlayPause.isEnabled = false
+            Toast.makeText(context, "Please set time first", Toast.LENGTH_SHORT).show()
+        } else {
+            announceText.text = "Next Session\n 00:00:00 Break"
+            btnPlayPause.isEnabled = true
+        }
+
+        btnPlayPause.setOnClickListener {
+            if (isPlaying) {
+                btnPlayPause.setImageResource(R.drawable.icon_play)
+                isPlaying = false
+            } else {
+                btnPlayPause.setImageResource(R.drawable.icon_pause)
+                isPlaying = true
+            }
+        }
+
+        updateWifiStatus()
+        updateRingerStatus()
+
+        return root
+    }
+
+    private fun updateWifiStatus() {
+        val wifiManager = requireContext().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        if (wifiManager.isWifiEnabled) {
+            // WiFi is enabled
+            wifiBtn.setImageResource(R.drawable.icon_wifi_on)
+        } else {
+            // WiFi is disabled
+            wifiBtn.setImageResource(R.drawable.icon_wifi_off)
+        }
+    }
+
+    private fun updateRingerStatus() {
+        val audioManager = requireContext().getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        when (audioManager.ringerMode) {
+            AudioManager.RINGER_MODE_NORMAL -> {
+                // Ring mode is normal
+                sndBtn.setImageResource(R.drawable.icon_ringer_normal)
+            }
+            AudioManager.RINGER_MODE_VIBRATE -> {
+                // Ring mode is vibrate
+                sndBtn.setImageResource(R.drawable.icon_ringer_vibrate)
+            }
+            AudioManager.RINGER_MODE_SILENT -> {
+                // Ring mode is silent
+                sndBtn.setImageResource(R.drawable.icon_ringer_silent)
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requireContext().registerReceiver(wifiReceiver, IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION))
+        requireContext().registerReceiver(ringerReceiver, IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        requireContext().unregisterReceiver(wifiReceiver)
+        requireContext().unregisterReceiver(ringerReceiver)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}
+
+//GOOD WORKING TIMEHOMEFRAGMENT (PERFECT)
+
+package com.example.focusmate.ui.time_home
+
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.media.AudioManager
+import android.net.wifi.WifiManager
+import android.os.Bundle
+import android.os.CountDownTimer
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import com.example.focusmate.R
+import com.example.focusmate.databinding.FragmentTimeHomeBinding
+import com.example.focusmate.ui.shared.SharedViewModel
+
+class TimeHomeFragment : Fragment() {
+
+    private lateinit var clockText: TextView
+    private lateinit var announceText: TextView
+    private lateinit var wifiBtn: ImageButton
+    private lateinit var sndBtn: ImageButton
+    private lateinit var btnPlayPause: ImageButton
+    private var isPlaying = false
+    private var currentTimer: CountDownTimer? = null
+    private var isFocusSession = true
+    private var remainingTimeInMillis: Long = 0
+
+    private var _binding: FragmentTimeHomeBinding? = null
+    private val binding get() = _binding!!
+
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val wifiReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            updateWifiStatus()
+        }
+    }
+    private val ringerReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            updateRingerStatus()
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentTimeHomeBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        sndBtn = binding.imgbtnSnd
+        wifiBtn = binding.imgbtnWifi
+        clockText = binding.tvTimeHome
+        announceText = binding.tvSessionAnnouncer
+        btnPlayPause = binding.btnPlayPause
+        btnPlayPause.isEnabled = false
+        btnPlayPause.setImageResource(R.drawable.icon_play)
+
+        // Set default text
+        clockText.text = getString(R.string.time_default)
+
+        // Observe focus time and break time changes
+        sharedViewModel.focusTime.observe(viewLifecycleOwner, Observer { focusTime ->
+            focusTime?.let {
+                if (isFocusSession) {
+                    updateSession(it, "Focus")
+                }
+            } ?: run {
+                clockText.text = getString(R.string.time_default)
+                announceText.text = "Please set time first"
+                btnPlayPause.isEnabled = false
+            }
+        })
+
+        sharedViewModel.breakTime.observe(viewLifecycleOwner, Observer { breakTime ->
+            breakTime?.let {
+                if (!isFocusSession) {
+                    updateSession(it, "Break")
+                }
+            } ?: run {
+                clockText.text = getString(R.string.time_default)
+                announceText.text = "Please set time first"
+                btnPlayPause.isEnabled = false
+            }
+        })
+
+        btnPlayPause.setOnClickListener {
+            if (isPlaying) {
+                pauseTimer()
+            } else {
+                startTimer()
+            }
+        }
+
+        updateWifiStatus()
+        updateRingerStatus()
+
+        return root
+    }
+
+    private fun updateSession(timeInMillis: Long, sessionType: String) {
+        val hours = timeInMillis / 1000 / 60 / 60
+        val minutes = (timeInMillis / 1000 / 60) % 60
+        val seconds = (timeInMillis / 1000) % 60
+        clockText.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+        if (sessionType == "Focus") {
+            announceText.text = "Next Session: ${getMinutesString(sharedViewModel.breakTime.value ?: 0L)} Break"
+        } else {
+            announceText.text = "Next Session: ${getMinutesString(sharedViewModel.focusTime.value ?: 0L)} Focus"
+        }
+        btnPlayPause.isEnabled = true
+    }
+
+    private fun getMinutesString(timeInMillis: Long): String {
+        val minutes = (timeInMillis / 1000 / 60) % 60
+        return "$minutes min"
+    }
+
+    private fun startTimer() {
+        isPlaying = true
+        btnPlayPause.setImageResource(R.drawable.icon_pause)
+        if (remainingTimeInMillis > 0) {
+            startCountDown(remainingTimeInMillis)
+        } else {
+            if (isFocusSession) {
+                sharedViewModel.focusTime.value?.let { startCountDown(it) }
+            } else {
+                sharedViewModel.breakTime.value?.let { startCountDown(it) }
+            }
+        }
+    }
+
+    private fun pauseTimer() {
+        isPlaying = false
+        btnPlayPause.setImageResource(R.drawable.icon_play)
+        currentTimer?.cancel()
+    }
+
+    private fun startCountDown(timeInMillis: Long) {
+        remainingTimeInMillis = timeInMillis
+        currentTimer = object : CountDownTimer(timeInMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                remainingTimeInMillis = millisUntilFinished
+                val hours = millisUntilFinished / 1000 / 60 / 60
+                val minutes = (millisUntilFinished / 1000 / 60) % 60
+                val seconds = (millisUntilFinished / 1000) % 60
+                clockText.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+            }
+
+            override fun onFinish() {
+                remainingTimeInMillis = 0
+                isFocusSession = !isFocusSession
+                if (isFocusSession) {
+                    updateSession(sharedViewModel.focusTime.value ?: 0L, "Focus")
+                } else {
+                    updateSession(sharedViewModel.breakTime.value ?: 0L, "Break")
+                }
+                startTimer()
+            }
+        }.start()
+    }
+
+    private fun updateWifiStatus() {
+        val wifiManager = requireContext().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        if (wifiManager.isWifiEnabled) {
+            wifiBtn.setImageResource(R.drawable.icon_wifi_on)
+        } else {
+            wifiBtn.setImageResource(R.drawable.icon_wifi_off)
+        }
+    }
+
+    private fun updateRingerStatus() {
+        val audioManager = requireContext().getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        when (audioManager.ringerMode) {
+            AudioManager.RINGER_MODE_NORMAL -> {
+                sndBtn.setImageResource(R.drawable.icon_ringer_normal)
+            }
+            AudioManager.RINGER_MODE_VIBRATE -> {
+                sndBtn.setImageResource(R.drawable.icon_ringer_vibrate)
+            }
+            AudioManager.RINGER_MODE_SILENT -> {
+                sndBtn.setImageResource(R.drawable.icon_ringer_silent)
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requireContext().registerReceiver(wifiReceiver, IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION))
+        requireContext().registerReceiver(ringerReceiver, IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        requireContext().unregisterReceiver(wifiReceiver)
+        requireContext().unregisterReceiver(ringerReceiver)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

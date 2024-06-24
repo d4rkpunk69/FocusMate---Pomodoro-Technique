@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_mainScreen">
+
+    <fragment
+        android:id="@+id/nav_mainScreen"
+        android:name="com.example.focusmatenav.ui.main.MainScreenFragment"
+        android:label="@string/main_screen"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/main_to_music"
+            app:destination="@id/nav_music" />
+        <action
+            android:id="@+id/main_to_setTime"
+            app:destination="@id/nav_setTime" />
+        <action
+            android:id="@+id/main_to_aboutUsMenu"
+            app:destination="@id/aboutUsMenu" />
+        <action
+            android:id="@+id/main_to_settingsMenu"
+            app:destination="@id/settingsMenu" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_music"
+        android:name="com.example.focusmatenav.ui.music.MusicFragment"
+        android:label="@string/music"
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/music_to_main"
+            app:destination="@id/nav_mainScreen" />
+        <action
+            android:id="@+id/music_to_setTime"
+            app:destination="@id/nav_setTime" />
+        <action
+            android:id="@+id/music_to_settingMenu"
+            app:destination="@id/settingsMenu" />
+        <action
+            android:id="@+id/music_to_aboutUsMenu"
+            app:destination="@id/aboutUsMenu" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_setTime"
+        android:name="com.example.focusmatenav.ui.set_time.SetTimeFragment"
+        android:label="@string/set_time"
+        tools:layout="@layout/fragment_slideshow" >
+        <action
+            android:id="@+id/setTime_to_main"
+            app:destination="@id/nav_mainScreen" />
+        <action
+            android:id="@+id/setTime_to_music"
+            app:destination="@id/nav_music" />
+        <action
+            android:id="@+id/setTime_to_aboutUsMenu"
+            app:destination="@id/aboutUsMenu" />
+        <action
+            android:id="@+id/setTime_to_settingsMenu"
+            app:destination="@id/settingsMenu" />
+    </fragment>
+    <activity
+        android:id="@+id/aboutUsMenu"
+        android:name="com.example.focusmatenav.menu.AboutUsMenu"
+        android:label="activity_about_us_menu"
+        tools:layout="@layout/activity_about_us_menu" />
+    <activity
+        android:id="@+id/settingsMenu"
+        android:name="com.example.focusmatenav.menu.SettingsMenu"
+        android:label="activity_settings_menu"
+        tools:layout="@layout/activity_settings_menu" />
+</navigation>

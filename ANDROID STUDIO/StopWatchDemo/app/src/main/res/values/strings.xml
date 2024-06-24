@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">StopWatchDemo</string>
+    <string name="_00_00_00">00:00:00</string>
+    <string name="reset">Reset</string>
+    <string name="start">Start</string>
+    <string name="timestamp">Timestamp</string>
+    <string name="action">Action</string>
+    <string name="get_started">Get Started</string>
+    <string name="welcome_to_my_app">Welcome to My App</string>
+    <string name="clear_all">Clear All</string>
+</resources>

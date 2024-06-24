@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/clapApp"
+        android:title="Clap App" />
+    <item
+        android:id="@+id/BMI"
+        android:title="BMI Calculator" />
+    <item
+        android:id="@+id/SPD"
+        android:title="SPDemo" />
+    <item
+        android:id="@+id/manipulateButton"
+        android:title="@string/plus_minus" />
+    <item
+        android:id="@+id/recyclerView"
+        android:title="@string/recycler_view" />
+</menu>

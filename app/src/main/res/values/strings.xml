@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">FocusMate</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Pomodoro Technique</string>
+    <string name="nav_header_subtitle">For efficient studying</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="time_home">Pomodoro Main</string>
+    <string name="settings">Settings</string>
+    <string name="about_us">About Us</string>
+    <string name="play_pause">PlayPause</string>
+    <string name="set_time_first">Set Time First</string>
+    <string name="wifi_status">wifi_status</string>
+    <string name="ringer_status">ringer_status</string>
+    <string name="tvInstructions">To be able to use this app, you must enter the desired time for focus session and the break time session first. Make sure to save.</string>
+    <string name="set_time">Set Time</string>
+    <string name="miscellaneous">Miscellaneous</string>
+    <string name="colon">:</string>
+    <string name="focus_session_time">Focus Session Time</string>
+    <string name="break_time_session_time">Break Time Session Time</string>
+    <string name="notifications">Notifications</string>
+    <string name="music">Background Music</string>
+    <string name="on">ON</string>
+    <string name="time_default">00:00:00</string>
+    <string name="togglebutton">ToggleButton</string>
+    <string name="hours">hours</string>
+    <string name="minutes">minutes</string>
+    <string name="save">Save</string>
+    <string name="toggleMusic">Toggle Music</string>
+    <string name="please_set_time_first">Please set time first</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="session_type">Session Type</string>
+    <string name="history">History</string>
+    <string name="_00_00_00">00:00:00</string>
+    <string name="end_time">End Time</string>
+    <string name="delete_session">Session deleted</string>
+    <string name="toggleNotifications">Toggle Notifications</string>
+    <string name="aboutUsText">Welcome to our mobile application development project, a pivotal endeavor undertaken as part of the Cognate Elective Course 2 at Bohol Island State University Main Campus. This course has provided us with a unique opportunity to apply theoretical knowledge in a practical setting, culminating in the creation of this application.\nOur Team: We are a dedicated team of developers passionate about leveraging technology to solve real-world problems and enhance user experiences. Our team comprises:\nJose Tuling Jr.: A diligent and innovative developer, Jose has a keen eye for detail and a strong foundation in mobile application development. His expertise lies in creating intuitive and user-friendly interfaces that cater to the needs of diverse users.\nJustin Emmanuel Salcedo: Justin brings a wealth of technical knowledge and creativity to the team. His proficiency in coding and problem-solving has been instrumental in overcoming the technical challenges encountered during the development process.\nOur Mission: Our mission is to develop a mobile application that not only meets the academic requirements of our course but also serves as a testament to our skills and dedication. We aim to create a product that is both functional and aesthetically pleasing, providing a seamless experience for users.\nOur Project: This project has been a journey of learning and growth. We have meticulously designed and developed each aspect of the application, from the initial concept to the final implementation. The process has involved extensive research, coding, testing, and refinement to ensure the highest quality of our final product.\nAcknowledgments: We would like to extend our heartfelt gratitude to our professors and mentors at Bohol Island State University Main Campus (especially to sir Engr. Julius Castro) for their guidance and support. Their expertise and encouragement have been invaluable in navigating the complexities of mobile application development.\nWe hope that our application reflects the skills and knowledge we have acquired throughout this course and that it serves as a stepping stone for future endeavors in the field of technology.\nThank you for taking the time to learn about our project. We look forward to your feedback and hope you enjoy using our application as much as we enjoyed creating it.</string>
+    <string name="session_complete"> session completed.</string>
+    <string name="session_complete_message">Congratulations! You have completed your session.</string>
+    <string name="stop">Stop</string>
+    <string name="start">Start</string>
+    <string name="dev1">EMMANUEL JUSTIN SALCEDO</string>
+    <string name="dev2">JOSE TULING JR</string>
+    <string name="just_an_animation">Just an Animation</string>
+    <string name="email_us">Email Us</string>
+    <string name="aboutUsDescription">Welcome to our productivity app designed to help you stay focused and efficient. Our app combines time management techniques with customizable sessions to enhance your productivity. Whether you\'re studying, working, or taking breaks, our intuitive interface and features like session history tracking empower you to manage your time effectively. Enjoy notifications with intuitive action bars, background music options for relaxation during break sessions, and an intuitive approach to interactive UI/UX design. Join us in optimizing your productivity and achieving your goals effortlessly.</string>
+    <string name="dev1_address">
+        School: Bohol Island State University\n
+        Address: San Miguel, Bohol\n
+        Birthday: October 13, 2002\n
+        Horoscope: Libra\n
+        Hobbies: Photography\n
+        Motto:</string>
+    <string name="dev2_address">
+        School: Bohol Island State University\n
+        Address: Anda, Bohol\n
+        Birthday: September 7, 1996\n
+        Horsocope: Virgo\n
+        Hobbies: Roadtrip\n
+        Motto: Never Settle for Less
+    </string>
+    <string name="our_developers">OUR DEVELOPERS</string>
+</resources>
